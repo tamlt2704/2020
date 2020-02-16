@@ -171,6 +171,116 @@ class Game:
                 self.player_turn = 'X'
 
 
+    def max_alpha_beta(self, alpha, beta):
+        maxv = -2
+        px = None
+        py = None
+        
+        winner = self.is_end()
+        if winner == self.X_PLAYER:
+            return (-1, 0, 0)
+        elif winner == self.O_PLAYER:
+            return (1, 0, 0)
+        elif winner == self.EMPTY:
+            return (0, 0, 0)
+        
+        board = self.current_state
+        board_size = len(board[0])
+        for i in range(board_size):
+            for j in range(board_size):
+                if self.current_state[i][j] == self.EMPTY:
+                    self.current_state[i][j] = self.O_PLAYER
+
+                    (m, min_i, min_j) = self.min_alpha_beta(alpha, beta)
+
+                    if m > maxv:
+                        maxv = m
+                        px = i
+                        py = j
+                    self.current_state[i][j] = self.EMPTY
+
+                    if maxv >= beta:
+                        return (maxv, px, py)
+
+                    if maxv > alpha:
+                        alpha = maxv
+        return (maxv, px, py)
+
+    def min_alpha_beta(self, alpha, beta):
+        minv = 2
+        qx = None
+        qy = None
+
+        winner = self.is_end()
+        if winner == self.X_PLAYER:
+            return (-1, 0, 0)
+        elif winner == self.O_PLAYER:
+            return (1, 0, 0)
+        elif winner == self.EMPTY:
+            return (0, 0, 0)
+
+        board_size = len(self.current_state[0])
+        for i in range(board_size):
+            for j in range(board_size):
+                if self.current_state[i][j] == self.EMPTY:
+                    self.current_state[i][j] = self.X_PLAYER
+
+                    (m, max_i, max_j) = self.max_alpha_beta(alpha, beta)
+
+                    if m < minv:
+                        minv = m
+                        qx = i 
+                        qy = j
+                    self.current_state[i][j] = self.EMPTY
+
+                    if minv <= alpha:
+                        return (minv, qx, qy)
+
+                    if minv < beta:
+                        beta = minv 
+        return (minv, qx, qy)
+
+    def play_alpha_beta(self):
+        while True:
+            self.draw_board()
+            self.winner = self.is_end()
+
+            if self.winner != None:
+                if self.winner == self.X_PLAYER:
+                    print("The winner is X!")
+                elif self.winner == self.O_PLAYER:
+                    print("The winner is O!")
+                elif self.winner == self.EMPTY:
+                    print("It's a tie")
+                
+                self.init_game()
+                return
+            
+            if self.player_turn == self.X_PLAYER:
+                while True:
+                    start = time.time()
+                    (m, qx, qy) = self.min_alpha_beta(-2, 2)
+                    end = time.time()
+
+                    print("evaluation time: {}".format(round(end - start, 7)))
+                    print("recommeded move: x={} y={}".format(qx, qy))
+
+                    px = int(input("Insert X coordinate"))
+                    py = int(input("Insert Y coordinate"))
+
+                    (qx, qy) = (px, py)
+
+                    if self.is_valid(px, py):
+                        self.current_state[px][py] = 'X'
+                        self.player_turn = self.O_PLAYER
+                        break
+                    else:
+                        print("This move is not valid!. Try again.")
+            else:
+                (m, px, py) = self.max_alpha_beta(-2, 2)
+                self.current_state[px][py] = self.O_PLAYER
+                self.player_turn = 'X'
+                
 def test():
     g = Game()
 
@@ -222,6 +332,7 @@ test()
 
 def main():
     g = Game()
-    g.play()
+    #g.play()
+    g.play_alpha_beta()
 
 main()
