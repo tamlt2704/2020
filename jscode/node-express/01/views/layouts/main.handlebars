@@ -2,9 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Web with node express</title>
+    {{#if showTests}}
+        <link rel="styleshee" href="/vendor/mocha.css">
+    {{/if}}
+    <script src='/jquery-3.5.0.min.js'> </script>
 </head>
 <body>
     {{{body}}}
+
+    {{#if showTests}}
+    <div id='mocha'>
+        <script src='/vendor/mocha.js'></script>
+        <script src='/vendor/chai.js'></script>
+        <script>
+            mocha.ui('tdd');
+            var assert = chai.assert;
+        </script>
+        <script src='/qa/tests-global.js'></script>
+        {{#if pageTestScript}}
+            <script src="{{pageTestScript}}"> </script>
+        {{/if}}
+        <script>
+            mocha.run()
+        </script>
+    </div>
+    {{/if}}
 </body>
 </html>

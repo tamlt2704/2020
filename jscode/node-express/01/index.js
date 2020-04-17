@@ -13,6 +13,11 @@ app.set('view engine', 'handlebars');
 
 app.use(express.static(__dirname + '/public'))
 
+app.use((req, res, next) => {
+    res.locals.showTests = app.get('env') !== 'production' &&
+        req.query.test === '1';
+    next();
+});
 /*
 app.get('/', (req, res) => {
     res.('text/plain')
@@ -39,10 +44,22 @@ app.use((err, req, res, next) => {
 })
 */
 
-app.get('/', (req, res) => res.render('home'))
+app.get('/', (req, res) => res.render('home'));
+
 app.get('/about', (req, res) => {
-    res.render('about', {fortune: fortune.getFotune()})
+    res.render('about', {
+        fortune: fortune.getFotune(),
+        pageTestScript: '/qa/tests-about.js'
+    });
 })
+
+app.get('/tours/hood-river', (req, res) => {
+    res.render('tours/hood-river');
+});
+
+app.get('/tours/request-group-rate', (req, res) => {
+    res.render('tours/request-group-rate');
+});
 
 app.use((req, res) => {
     res.status(404)
