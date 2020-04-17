@@ -1,5 +1,6 @@
 const express = require('express');
 const expressHandlerbars = require('express-handlebars');
+const fortune = require('./lib/fortume.js');
 
 const app = express();
 
@@ -11,14 +12,6 @@ app.engine('handlebars', expressHandlerbars({
 app.set('view engine', 'handlebars');
 
 app.use(express.static(__dirname + '/public'))
-
-const fortunes = [
-    "Saepe excepturi voluptas possimus autem officia.",
-    "Nesciunt alias voluptates.",
-    "Tempora aut aperiam magnam rerum odit delectus id.",
-    "Libero vel sed expedita molestiae.",
-    "Possimus nulla recusandae omnis maiores qui error."
-];
 
 /*
 app.get('/', (req, res) => {
@@ -48,8 +41,7 @@ app.use((err, req, res, next) => {
 
 app.get('/', (req, res) => res.render('home'))
 app.get('/about', (req, res) => {
-    const randomFortune = fortunes[Math.floor(Math.random()*fortunes.length)];
-    res.render('about', {fortune: randomFortune})
+    res.render('about', {fortune: fortune.getFotune()})
 })
 
 app.use((req, res) => {
