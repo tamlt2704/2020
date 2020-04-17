@@ -1,0 +1,97 @@
+var one = 1
+var two = 'two'
+var three = '3'
+
+--> Insert ';' to end of each line
+    go to line 1
+    Shift + A
+    ;
+    j
+    Shift + V -> Select until the end
+    :'<,'>normal .
+
+
+--> Math in vim
+    5 * 125 = $625
+    
+    goto line 15
+    <Ctrl + R>=
+    5 * 125
+    <CR>
+
+
+--> copy lines
+    line 2                                                 line 2
+    line 1          :24t. -> coply line 2 under line 1     line 1
+    line 3                                                 line 2
+    line 4                                                 line 3
+    line 5                                                 line 4
+                                                           line 5
+
+    :<line_number_to_copy>t<line_number_to_paste>
+    . -> current line
+    $ end of file
+    0 start of file
+    <start_range>,<end_range>t<line_number_to_paste>
+    
+    replace t with m for 'move'
+
+
+--> run command from buffer
+    ls -al
+    
+    :<line_contains_code>write !<program>
+    :<start_line>,<end_line>write !<program>
+
+
+--> sort this content by age
+    first name,last name,age
+    john,smith,26
+    drew,neil,16
+    jane,doe,21
+
+    :49,51!sort -t',' -k3
+    
+    
+--> windows
+    <C-v>c      Close active window
+    <C-v>o      Close all other window
+    <C-v>=      Set windows size all equal
+    <C-v>|      Maximize current width
+    <C-v>_      Maximize current height
+    [N]<C-v>|   Set active windows to [N] columns
+    [N]<C-v>_   Set active windows to [N] rows
+
+--> tabs
+    gt          move to next tab
+    
+--> text selection 
+    <a href="#"> {this.props.title} </a> 
+
+    vit         select in tag     {this.props.title} 
+    vi}                           this.props.titl
+    va}                           {this.props.titl}
+    va>                           <a href="#">
+    vi>                           a href="#"
+
+--> repeat macro multiple times
+    'console.log([...Array(26).keys()].map(i => String.fromCharCode(65 + i)).join());'
+    var x = 'A' + 'B' + 'C' + 'D' + 'E';
+
+    qq              register
+    f+              search '+'
+    s +             delete and replace by ' + '
+    q               end register
+    22@q
+
+--> repeat multile lines
+    :'<,'>normal @q
+    
+--> insert line numbers
+    line 1
+    line 2
+
+    :g91
+    qq
+    yyp
+    10@q
