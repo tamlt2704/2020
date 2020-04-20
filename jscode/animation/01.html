@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        <link rel="stylesheet" href="style.css">
+    </title>
+</head>
+<body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <script src="utils.js"></script>
+    <script src="pixi.min.js"></script>
+    <script>
+        // createt the renderer
+        let renderer = PIXI.autoDetectRenderer(
+            256, 
+            256,
+            {antialias: false, transparent: false, resolution: 1}
+        );
+        
+        // add canvas to the HTML document
+        document.body.appendChild(renderer.view);
+
+        // set canvas's border style and background color
+        renderer.view.style.border = '1px dashed black';
+        renderer.backgroundColor = '0xFFFFFF';
+    
+        // create a container object called the stage
+        let stage = new PIXI.Container();
+
+        PIXI.loader
+            .add('images/out.png')
+            .on("progress", loadProgressHandler)
+            .load(setup);
+
+        function loadProgressHandler(loader, resource) {
+            console.log(`loading ${resource.url}  ${loader.progress}`);
+        }
+        
+        let pixie;
+
+        function setup() {
+            // create sprite from texture
+            pixie = new PIXI.Sprite(
+                    PIXI.loader.resources['images/out.png'].texture
+                );
+            pixie.x = 96;
+            pixie.y = 128;
+            pixie.vx = 0;
+            pixie.vy = 0;
+            pixie.accelerationX = 0;
+            pixie.accelerationY = 0;
+            pixie.frictionX = 1;
+            pixie.frictionY = 1;
+            pixie.width = 56;
+            pixie.height = 56;
+            pixie.speed = 0.2;
+            pixie.drag = 0.98;
+            
+            var left   =  keyboard(37);
+            var up     =  keyboard(38);
+            var right  =  keyboard(39);
+            var down   =  keyboard(40);
+
+            left.press = () => {
+                pixie.accelerationX = -pixie.speed;
+                pixie.frictionX = 1;
+                pixie.vx = -5;
+                pixie.vy = 0;
+            }
+            left.release = () => {
+                if (!right.isDown && pixie.vy === 0) {
+                    pixie.vx = 0;
+                }
+                if (!right.isDown) {
+                    pixie.accelerationX = 0;
+                    pixie.frictionX = pixie.drag;
+                }
+            }
+            up.press = () => {
+                pixie.accelerationY = -pixie.speed;
+                pixie.frictionY = 1;
+                pixie.vy = -5;
+                pixie.vx = 0;
+            }
+            up.release = () => {
+                if (!down.isDown && pixie.vx === 0) {
+                    pixie.vy = 0;
+                }
+                if (!down.isDown) {
+                    pixie.accelerationY = 0;
+                    pixie.frictionY = pixie.drag;
+                }
+            }
+            right.press = () => {
+                pixie.accelerationX = pixie.speed;
+                pixie.frictionX = 1;
+                pixie.vx = 5;
+                pixie.vy = 0;
+            }
+            right.release = () => {
+                if (!left.isDown && pixie.vy === 0) {
+                    pixie.vx = 0;
+                }
+                if (!left.isDown) {
+                    pixie.accelerationX = 0;
+                    pixie.frictionX = pixie.drag;
+                }
+            }
+            down.press = () => {
+                pixie.vy = 5;
+                pixie.vx = 0;
+                pixie.accelerationY = pixie.speed;
+                pixie.frictionY = 1;
+            }
+            down.release = () => {
+                if (!up.isDown && pixie.vx === 0) {
+                    pixie.vy = 0;
+                }
+                if (!up.isDown) {
+                    pixie.accelerationY = 0;
+                    pixie.frictionY = pixie.drag;
+                }
+            }
+            stage.addChild(pixie);
+            
+            gameLoop();
+        }
+        
+        let state = play;
+
+        function gameLoop() {
+            // loop this function 60 times per seconds
+            requestAnimationFrame(gameLoop);
+
+            // update current game state 
+            state();
+
+            renderer.render(stage);
+        }
+        
+        function play() {
+            pixie.vx += pixie.accelerationX;
+            pixie.vy += pixie.accelerationY;
+            pixie.vx *= pixie.frictionX;
+            pixie.vy *= pixie.frictionY;
+
+            //gravity
+            pixie.vy += 0.1;
+
+            pixie.x += pixie.vx;
+            pixie.y += pixie.vy;
+        }
+        
+        function keyboard(keyCode) {
+            let key = {};
+            key.keyCode = keyCode;
+
+            key.isDown = false;
+            key.isUp = true;
+            key.press = undefined;
+            key.release = undefined;
+
+            key.downHandler = event => {
+                if (event.keyCode === key.keyCode) {
+                    if (key.isUp && key.press) key.press();
+                    key.isDown = true;
+                    key.isUp = false;
+                }
+                event.preventDefault();
+            }
+
+            key.upHandler = event => {
+                if (event.keyCode === key.keyCode) {
+                    if (key.isDown && key.release) key.release();
+                    key.isDown = false;
+                    key.isUp = true;
+                }
+                event.preventDefault();
+            }
+
+            window.addEventListener(
+                'keydown', key.downHandler.bind(key), false
+            );
+            window.addEventListener(
+                'keyup', key.upHandler.bind(key), false
+            );
+            return key;
+        }
+
+
+    </script>
+</body>
+</html>
