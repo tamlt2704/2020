@@ -34,7 +34,8 @@ class App extends Component {
                 size={[500, 400]}
             />
             <BarChart 
-                data={[5, 10, 1, 3]}
+                colorScale={colorScale}
+                data={appData}
                 size={[500, 500]}
             />
             

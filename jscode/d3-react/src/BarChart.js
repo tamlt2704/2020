@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import './App.css';
 import { scaleLinear } from 'd3-scale';
-import { max } from 'd3-array';
+import { max, sum } from 'd3-array';
 import { select } from 'd3-selection';
 
 class BarChart extends Component {
@@ -21,8 +21,8 @@ class BarChart extends Component {
 
     createBarChart() {
         const node = this.node;
-        console.log(node);
-        const dataMax = max(this.props.data);
+        const dataMax = max(this.props.data.map(d => sum(d.data)));
+        const barWidth = this.props.size[0] / this.props.data.length;
         const yScale = scaleLinear()
                         .domain([0, dataMax])
                         .range([0, this.props.size[1]]);
@@ -42,10 +42,11 @@ class BarChart extends Component {
             .selectAll('rect')
             .data(this.props.data)
             .style('fill',  '#fe9922')
-            .attr('x', (d,i) => i * 25)
-            .attr('y', d => this.props.size[1] - yScale(d))
-            .attr('height', d => yScale(d))
-            .attr('width', 25);
+            .style('fill',  d => this.props.colorScale(d.launchday))
+            .attr('x', (d,i) => i * barWidth)
+            .attr('y', d => this.props.size[1] - yScale(sum(d.data)))
+            .attr('height', d => yScale(sum(d.data)))
+            .attr('width', barWidth)
     }
 
     render() {
