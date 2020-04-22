@@ -76,6 +76,7 @@
             }
         }
 
+/*
         class Label extends React.Component {
             render() {
                 var labelStyle = {
@@ -89,7 +90,7 @@
                 );
             }
         }
-
+*/
         class Card extends React.Component {
             render() {
                 var cardStyle = {
@@ -109,9 +110,45 @@
             }
         }
 
+        class Shirt extends React.Component {
+            render() {
+                return (
+                    <Label 
+                        color={this.props.color}
+                        num={this.props.num}
+                        size={this.props.size}
+                    />
+                );
+            }
+        }
+
+        class Label extends React.Component {
+            render() {
+                return (
+                    <Display
+                        color={this.props.color}
+                        num={this.props.num}
+                        size={this.props.size}
+                    />
+                );
+            }
+        }
+
+        class Display extends React.Component {
+            render() {
+                return (
+                    <div>
+                        <p> {this.props.color} </p>
+                        <p> {this.props.num} </p>
+                        <p> {this.props.size} </p>
+                    </div>
+                );
+            }
+        }
+
         ReactDOM.render(
             <div>
-                <Card color='#FFA737'/>
+                <Shirt color='steelblue' num='3.14' size='medium' />
             </div>,
             destination
         );
