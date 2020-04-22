@@ -63,14 +63,55 @@
                 );
             }
         }
+        
+        class Square extends React.Component {
+            render() {
+                var squareStyle = {
+                    height: 150,
+                    backgroundColor: '#FF6663'
+                }
+                return (
+                   <div style={squareStyle}></div>
+                );
+            }
+        }
+
+        class Label extends React.Component {
+            render() {
+                var labelStyle = {
+                    fontFamily: 'sans-serif',
+                    fontWeight: 'bold',
+                    padding: 13,
+                    margin: 0
+                };
+                return (
+                    <div style={labelStyle}>#FF6663</div>
+                );
+            }
+        }
+
+        class Card extends React.Component {
+            render() {
+                var cardStyle = {
+                    height: 200,
+                    width: 150,
+                    padding: 0,
+                    backgroundColor: '#FFF',
+                    backgroundShadow: '0px 0px 5px #666'
+                }
+
+                return (
+                    <div style={cardStyle}>
+                        <Square />
+                        <Label />
+                    </div>
+                );
+            }
+        }
 
         ReactDOM.render(
             <div>
-                <Letter bgcolor="#58B3FF"> A </Letter>
-                <Letter bgcolor="#FF605F"> E </Letter>
-                <Letter bgcolor="#FFD52E"> I </Letter>
-                <Letter bgcolor="#49DD8E"> O </Letter>
-                <Letter bgcolor="#AE99FF"> U </Letter>
+                <Card />
             </div>,
             destination
         );
