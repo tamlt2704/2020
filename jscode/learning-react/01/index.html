@@ -27,16 +27,16 @@
         class HelloWorld extends React.Component {
             render() {
                 return (
-                    <p> Hello, {this.props.greetTarget} </p>
+                    <p> Hello, {this.props.greetTarget} - {this.props.children} </p>
                 );
             }
         }
         ReactDOM.render(
             <div>
-                <HelloWorld greetTarget='Iron Man' />
-                <HelloWorld greetTarget='BatMan' />
-                <HelloWorld greetTarget='Mega Man' />
-                <HelloWorld greetTarget='Wonder Man' />
+                <HelloWorld greetTarget='Iron Man'>   1 </HelloWorld>
+                <HelloWorld greetTarget='BatMan'>     2 </HelloWorld>
+                <HelloWorld greetTarget='Mega Man'>   3 </HelloWorld>
+                <HelloWorld greetTarget='Wonder Man'> 4 </HelloWorld>
             </div>,
             destination
         );
