@@ -23,8 +23,15 @@
     <div id='container'></div>
     <script type='text/babel'>
         var destination = document.querySelector('#container');
+        class HelloWorld extends React.Component {
+            render() {
+                return (
+                    <p> Hello Component </p>
+                );
+            }
+        }
         ReactDOM.render(
-            <h1>Sherlock Home</h1>,
+            <HelloWorld />,
             destination
         );
     </script>
