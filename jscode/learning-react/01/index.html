@@ -45,8 +45,19 @@
 
         class Letter extends React.Component {
             render() {
+                var letterStyle = {
+                    padding: 10,
+                    margin: 10,
+                    backgroundColor: "#FFDE00",
+                    color: "#333",
+                    display: "inline-block",
+                    fontSize: 32,
+                    textAlign: "center",
+                    fontFamily: "monospace"
+                };
+
                 return (
-                    <div className='letter'>
+                    <div style={letterStyle}>
                         {this.props.children}
                     </div>
                 );
