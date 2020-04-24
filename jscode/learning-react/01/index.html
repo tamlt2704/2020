@@ -260,6 +260,42 @@
                     count: currentCount
                 });
             }
+            
+            componentWillUpdate(newProps, newState) {
+                console.log('componentWillUpdate: Component is about to update');
+            }
+
+            componentDidUpdate(currentProps, currentState) {
+                console.log('componentDidUpdate: Component just updated');
+            }
+            
+            componentWillMount() {
+                console.log('componentWillMount: Component is about to mount!');
+            }
+            
+            componentDidMount() {
+                console.log('componentDidMount: Component is mounted!');
+            }
+
+            componentWillUnmount() {
+                console.log('componentWillUnmount : Component is about to be remove');
+            }
+            
+            shouldComponentUpdate(newProps, newState) {
+                console.log('shouldComponentUpdate: Should component update?');
+
+                if (newState.count < 5) {
+                   console.log('shouldComponentUpdate: component should update'); 
+                   return true;
+                } else {
+                    ReactDOM.unmountComponentAtNode(destination);
+                    return false;
+                }
+            }
+
+            componentWillReceiveProps(newProps) {
+                console.log('componentWillReceiveProps: Component will get new props');
+            }
 
             render() {
                 var backgroundStyle = {
@@ -293,7 +329,28 @@
             }
         }
 
-
+        /*
+           rendering phase
+                Default Props
+                Get State
+                componentWillMount
+                render
+                componentDidMount
+            State Change
+                shouldComponentUpdate
+                componentWillUpdate
+                render
+                componentDidUpdate
+            Props Change
+                componentWillReceiveProps
+                shouldComponentUpdate
+                componentWillUpdate
+                render
+                componentDidUpdate
+            Unmount
+                componentWillUnmount
+        */
+    
         ReactDOM.render(
             <div>
                 <CounterParent />
