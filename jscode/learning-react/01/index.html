@@ -403,6 +403,9 @@
                 this.setState({
                     bgcolor: this.state.color
                 });
+
+                this._input.focus();
+                this._input.value ="";
                 e.preventDefault();
             }
 
@@ -410,24 +413,30 @@
                 var squareStyle = {
                         backgroundColor: this.state.bgcolor
                     }
+                var self = this;
 
-                    return (
-                        <div className='colorArea'>
-                            <div 
-                                style={squareStyle}
-                                className='colorSquare'>
-                            </div>
-
-                            <form onSubmit={this.setNewColor}>
-                                <input
-                                    type="text"
-                                    onChange={this.colorValue}
-                                    placeholder="Enter a color value"> 
-                                </input>
-                                <button type="submit"> go </button>
-                            </form>
+                return (
+                    <div className='colorArea'>
+                        <div 
+                            style={squareStyle}
+                            className='colorSquare'>
                         </div>
-                    );
+
+                        <form onSubmit={this.setNewColor}>
+                            <input
+                                type="text"
+                                ref={
+                                    function(el) {
+                                        self._input = el;
+                                    }
+                                }
+                                onChange={this.colorValue}
+                                placeholder="Enter a color value"> 
+                            </input>
+                            <button type="submit"> go </button>
+                        </form>
+                    </div>
+                );
             }
         }
         ReactDOM.render(
