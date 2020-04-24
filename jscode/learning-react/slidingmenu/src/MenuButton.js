@@ -1,13 +1,14 @@
-import React, {Component} from 'react';
+import React, {Component, PureComponent} from 'react';
 import './MenuButton.css';
 
 
-class MenuButton extends Component {
+class MenuButton extends PureComponent {
     constructor(props) {
         super(props);
     }
 
     render() {
+        console.log('Menu button render method');
         return (
             <button
                 id="roundButton"
