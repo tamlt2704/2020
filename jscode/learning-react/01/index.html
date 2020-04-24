@@ -56,9 +56,17 @@
             border-color: #111;
             cursor: pointer;
         }
+
+        #colorHeading {
+            padding: 0;
+            margin: 50px;
+            margin-bottom: -20px;
+            font-family: sans-serif;
+        }
     </style>
 </head>
 <body>
+    <h1 id='colorHeading'>Coloriser</h1>
     <div id='container'></div>
     <script type='text/babel'>
         var destination = document.querySelector('#container');
@@ -380,6 +388,18 @@
         */
 
         /*********************************************************************************/
+        var heading = document.querySelector('#colorHeading');
+        class ColorLabel extends React.Component {
+            render() {
+                return(
+                    ReactDOM.createPortal(
+                        ": "  + this.props.color,
+                        heading
+                    )
+                );
+            }
+        }
+            
         class Colorizer extends React.Component {
             constructor(props) {
                 super(props);
@@ -435,6 +455,7 @@
                             </input>
                             <button type="submit"> go </button>
                         </form>
+                        <ColorLabel color={this.state.bgcolor} />
                     </div>
                 );
             }
