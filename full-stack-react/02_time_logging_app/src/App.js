@@ -42,8 +42,11 @@ class EditableTimerList extends Component {
 }
 
 class EditableTimer extends Component {
+    state = {
+        editFormOpen: false
+    }
     render() {
-        if (this.props.editFormOpen) {
+        if (this.state.editFormOpen) {
             return (<TimerForm {...this.props} />)
         } else {
             return (<Timer {...this.props} /> )
@@ -52,12 +55,37 @@ class EditableTimer extends Component {
 }
 
 class TimerForm extends Component {
+    state = {
+        title: this.props.title || '',
+        project: this.props.project || '',
+    }
+
+    handleTitleChange = (e) => {
+        this.setState({
+            title: e.target.value
+        });
+    }
+
+    handleProjectChange = (e) => {
+        this.setState({
+            title: e.target.value
+        });
+    }
+
     render() {
         const submitText = this.props.title ? 'Update' : 'Create';
         return (
             <div className='timer-form'>
-                Title: <input type="text" defaultValue={this.props.title} /> <br/>
-                Project: <input type="text" defaultValue={this.props.project} /> <br/>
+                Title: <input 
+                            type="text" 
+                            defaultValue={this.state.title} 
+                            onChange={this.handleTitleChange}
+                        /> <br/>
+                Project: <input 
+                            type="text" 
+                            defaultValue={this.state.project} 
+                            onChange={this.handleProjectChange}
+                        /> <br/>
                 <div className='btn btn-primary'> {submitText} </div>
                 <div className='btn btn-danger'> Cancel </div>
             </div>
@@ -82,13 +110,25 @@ class Timer extends Component {
 }
 
 class ToogleableTimerForm extends Component {
+    state = {
+        isOpen: false,
+    }
+
+    handleFormOpen = () => {
+        this.setState({
+            isOpen: true
+        });
+    }
     render() {
-        if (this.props.isOpen) {
+        if (this.state.isOpen) {
             return ( <TimerForm />);
         } else {
             return (
                 <div>
-                    <div className='btn btn-primary'>
+                    <div 
+                        className='btn btn-primary'
+                        onClick={this.handleFormOpen}
+                    >
                         Add
                     </div>
                 </div>
