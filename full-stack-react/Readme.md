@@ -1,3 +1,9 @@
+0. init project
+npx license mit
+npx gitignore node
+npx covgen
+
+
 01. voting app
 
 // init project
