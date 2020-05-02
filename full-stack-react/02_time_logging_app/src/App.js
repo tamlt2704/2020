@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import logo from './logo.svg';
+import {v4 as uuidv4} from 'uuid';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -12,11 +13,38 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Seed from './Seed';
 
 class TimerDashboard extends Component {
+    state = {
+        timers: Seed.timers
+    }
+
+    handleCreateFormSubmit  = (timer) => {
+        this.createTimer(timer);
+    }
+
+    createTimer = (timer) => {
+        var t = {
+            id: uuidv4(),
+            title: timer.title,
+            project: timer.project,
+            elapsed: Math.floor(Math.random() * 10000000),
+            runningSince:null,
+            editFormOpen: false
+        };
+        t.key = t.id;
+
+        this.setState({
+            timers: this.state.timers.concat(t)
+        });
+    }
+    
     render() {
         return (
             <div>
-                <EditableTimerList />
+                <EditableTimerList 
+                    timers={this.state.timers}
+                />
                 <ToogleableTimerForm 
+                    onFormSubmit={this.handleCreateFormSubmit}
                     isOpen={true}
                 />
             </div>
@@ -25,12 +53,8 @@ class TimerDashboard extends Component {
 }
 
 class EditableTimerList extends Component {
-    state = {
-        timers: Seed.timers
-    }
-
     render() {
-        const timerList = this.state.timers.map((timer) => (
+        const timerList = this.props.timers.map((timer) => (
             <EditableTimer {...timer}/>
         ));
         return (
@@ -68,7 +92,14 @@ class TimerForm extends Component {
 
     handleProjectChange = (e) => {
         this.setState({
-            title: e.target.value
+            project: e.target.value
+        });
+    }
+    
+    handleSubmit = () => {
+        this.props.onFormSubmit({
+            title: this.state.title,
+            project: this.state.project
         });
     }
 
@@ -86,8 +117,14 @@ class TimerForm extends Component {
                             defaultValue={this.state.project} 
                             onChange={this.handleProjectChange}
                         /> <br/>
-                <div className='btn btn-primary'> {submitText} </div>
-                <div className='btn btn-danger'> Cancel </div>
+                <div 
+                    className='btn btn-primary'
+                    onClick={this.handleSubmit}
+                > {submitText} </div>
+                <div 
+                    className='btn btn-danger'
+                    onClick={this.props.onFormClose}
+                > Cancel </div>
             </div>
         )
     }
@@ -119,9 +156,25 @@ class ToogleableTimerForm extends Component {
             isOpen: true
         });
     }
+
+    handleFormClose = () => {
+        this.setState({
+            isOpen: false
+        });
+    }
+
+    handleFormSubmit = (timer) => {
+        this.props.onFormSubmit(timer);
+        this.setState({isOpen: false});
+    }
+
     render() {
         if (this.state.isOpen) {
-            return ( <TimerForm />);
+            return ( 
+                <TimerForm 
+                    onFormSubmit={this.handleFormSubmit}
+                    onFormClose={this.handleFormClose}
+                />);
         } else {
             return (
                 <div>
