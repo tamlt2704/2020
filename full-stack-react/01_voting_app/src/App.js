@@ -14,6 +14,17 @@ import Seed from './seed.js';
 library.add(fab, faCheckSquare, faCoffee, faSortUp)
 
 class Product extends Component {
+    constructor(props) {
+        super(props);
+
+        this.handleUpVote = this.handleUpVote.bind(this);
+    }
+    
+    handleUpVote() {
+        console.log(this.props.id);
+        this.props.onVote(this.props.id);
+    }
+
     render() {
         return (
             <div className='container product-box'>
@@ -27,7 +38,9 @@ class Product extends Component {
                             <h4 className='card-title'>
                                 {this.props.title} 
                             </h4>
-                            <FontAwesomeIcon icon='sort-up' className='fa-2x'/>
+                            <a onClick={this.handleUpVote}>
+                                <FontAwesomeIcon icon='sort-up' className='fa-2x'/>
+                            </a>
                             votes: {this.props.votes}
                             <p className='card-text'>
                                 {this.props.description}
@@ -41,9 +54,36 @@ class Product extends Component {
 }
 
 class ProductList extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            products: []
+        };
+        this.handleUpVote = this.handleUpVote.bind(this);
+    }
+
+    handleUpVote(productId) {
+        this.setState({
+                products: this.state.products.map((product) => {
+                    if (product.id === productId) {
+                        return Object.assign({}, product, {
+                                    votes: product.votes + 1
+                                });
+                    } else {
+                        return product;
+                    }
+                }),
+        });
+    }
+
+    componentDidMount() {
+        this.setState({products: Seed.products});
+    }
+
     render() {
-        const products = Seed.products.sort((a, b) => b.votes - a.votes);
-        const productComponents = Seed.products.map((product) => (
+        const products = this.state.products.sort((a, b) => b.votes - a.votes);
+        const productComponents = products.map((product) => (
             <Product
                 key = {'product-' + product.id}
                 id = {product.id}
@@ -53,6 +93,7 @@ class ProductList extends Component {
                 votes = {product.votes}
                 submitterAvatarUrl = {product.submitterAvatarUrl}
                 productImageUrl = {product.productImageUrl}
+                onVote = {this.handleUpVote}
             />
         ));
         return (
