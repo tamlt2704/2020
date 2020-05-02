@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+.timer-box {
+    border: 1px solid #f4f4f4;
+    width: 50%;
+    margin: auto;
+    padding: 2px;
+}
+
+.timer-form {
+    border: 1px solid #f4f4f4;
+    width: 50%;
+    padding: 2px;
+    margin: auto;
+}
