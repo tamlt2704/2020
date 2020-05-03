@@ -1,0 +1,16 @@
+{
+  "name": "build-first",
+  "version": "1.0.0",
+  "description": "npm install -g jshint npm install -g grunt",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "grunt": "^1.1.0",
+    "grunt-contrib-jshint": "^2.1.0"
+  }
+}
