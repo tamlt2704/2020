@@ -17,6 +17,16 @@ class TimerDashboard extends Component {
         timers: Seed.timers
     }
     
+    handleTrashClick = (timerId) => {
+        this.deleteTimer(timerId);
+    }
+
+    deleteTimer = (timerId) => {
+        this.setState({
+            timers: this.state.timers.filter(t => t.id !== timerId),
+        });
+    }
+
     handleEditFormSubmit = (attrs) => {
         console.log('handle Edit form submit');
         console.log(attrs);
@@ -64,6 +74,7 @@ class TimerDashboard extends Component {
                 <EditableTimerList 
                     timers={this.state.timers}
                     onFormSubmit={this.handleEditFormSubmit}
+                    onTrashClick={this.handleTrashClick}
                 />
                 <ToogleableTimerForm 
                     onFormSubmit={this.handleCreateFormSubmit}
@@ -76,7 +87,6 @@ class TimerDashboard extends Component {
 
 class EditableTimerList extends Component {
     render() {
-        console.log(this.props.timers);
         const timerList = this.props.timers.map((timer) => (
             <EditableTimer 
                 key={timer.id}
@@ -86,6 +96,7 @@ class EditableTimerList extends Component {
                 elapsed={timer.elapsed}
                 runningSince={timer.runningSince}
                 onFormSubmit={this.props.onFormSubmit}
+                onTrashClick={this.props.onTrashClick}
             />
         ));
         return (
@@ -142,6 +153,7 @@ class EditableTimer extends Component {
                     elapsed={this.props.elapsed}
                     runningSince={this.props.runningSince}
                     onEditClick={this.handleEditClick}
+                    onTrashClick={this.props.onTrashClick}
                 /> 
             );
         }
@@ -202,6 +214,10 @@ class TimerForm extends Component {
 }
 
 class Timer extends Component {
+    handleTrashClick = () => {
+        this.props.onTrashClick(this.props.id);
+    }
+
     render() {
         const elapsedString = this.props.elapsed;
         return (
@@ -213,7 +229,9 @@ class Timer extends Component {
                     onClick={this.props.onEditClick}
                     >Edit
                 </div>
-                <div>Delete</div>
+                <div
+                    onClick={this.handleTrashClick}
+                >Delete</div>
                 <div className='btn btn-primary'>Start</div>
             </div>
         )
