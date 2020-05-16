@@ -16,6 +16,27 @@ class TimerDashboard extends Component {
     state = {
         timers: Seed.timers
     }
+    
+    handleEditFormSubmit = (attrs) => {
+        console.log('handle Edit form submit');
+        console.log(attrs);
+        this.updateTimer(attrs);
+    }
+
+    updateTimer = (attrs) => {
+        this.setState({
+            timers: this.state.timers.map((timer) => {
+                if (timer.id === attrs.id) {
+                    return Object.assign({}, timer, {
+                        title: attrs.title,
+                        project: attrs.project,
+                    });
+                } else {
+                    return timer;
+                }
+            })
+        });
+    }
 
     handleCreateFormSubmit  = (timer) => {
         this.createTimer(timer);
@@ -42,6 +63,7 @@ class TimerDashboard extends Component {
             <div>
                 <EditableTimerList 
                     timers={this.state.timers}
+                    onFormSubmit={this.handleEditFormSubmit}
                 />
                 <ToogleableTimerForm 
                     onFormSubmit={this.handleCreateFormSubmit}
@@ -54,8 +76,17 @@ class TimerDashboard extends Component {
 
 class EditableTimerList extends Component {
     render() {
+        console.log(this.props.timers);
         const timerList = this.props.timers.map((timer) => (
-            <EditableTimer {...timer}/>
+            <EditableTimer 
+                key={timer.id}
+                id={timer.id}
+                title={timer.title}
+                project={timer.project}
+                elapsed={timer.elapsed}
+                runningSince={timer.runningSince}
+                onFormSubmit={this.props.onFormSubmit}
+            />
         ));
         return (
             <div id='timers'>
@@ -66,14 +97,53 @@ class EditableTimerList extends Component {
 }
 
 class EditableTimer extends Component {
+    handleEditClick = () => {
+        this.openForm();
+    }
+
+    handleFormClose = () => {
+        this.closeForm();
+    }
+
+    handleSubmit = (timer) => {
+        this.props.onFormSubmit(timer);
+        this.closeForm();
+    }
+
+    closeForm = () => {
+        this.setState({editFormOpen : false});
+    }
+
+    openForm = () => {
+        this.setState({editFormOpen : true});
+    }
+
     state = {
         editFormOpen: false
     }
+
     render() {
         if (this.state.editFormOpen) {
-            return (<TimerForm {...this.props} />)
+            return (
+                <TimerForm 
+                    id={this.props.id}
+                    title={this.props.title}
+                    project={this.props.project}
+                    onFormSubmit={this.handleSubmit}
+                    onFormClose={this.handleFormClose}
+                />
+            );
         } else {
-            return (<Timer {...this.props} /> )
+            return (
+                <Timer 
+                    id={this.props.id}
+                    title={this.props.title}
+                    project={this.props.project}
+                    elapsed={this.props.elapsed}
+                    runningSince={this.props.runningSince}
+                    onEditClick={this.handleEditClick}
+                /> 
+            );
         }
     }
 }
@@ -98,6 +168,7 @@ class TimerForm extends Component {
     
     handleSubmit = () => {
         this.props.onFormSubmit({
+            id: this.props.id,
             title: this.state.title,
             project: this.state.project
         });
@@ -138,7 +209,10 @@ class Timer extends Component {
                 <div>{this.props.title}</div>
                 <div>{this.props.project}</div>
                 <div>{elapsedString}</div>
-                <div>Edit</div>
+                <div
+                    onClick={this.props.onEditClick}
+                    >Edit
+                </div>
                 <div>Delete</div>
                 <div className='btn btn-primary'>Start</div>
             </div>
