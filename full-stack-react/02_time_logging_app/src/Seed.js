@@ -9,7 +9,7 @@ function generateTimers(size) {
         id: uuidv4(),
         title: lorem.sentence(),
         project: lorem.sentence(),
-        elapsed: Math.floor(Math.random() * 10000000),
+        elapsed: Date.now(),
         runningSince:null,
         editFormOpen: (Math.floor(Math.random() * 10) % 2 === 1)
     }
