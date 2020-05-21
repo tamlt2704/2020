@@ -68,3 +68,11 @@ Common middleware
 
 Logging
     npm install morgan
+
+Deploy in production
+    npm install -g forever
+    forever start index.js
+    forever restart index.js
+    forever stop index.js
+
+    or pm2
