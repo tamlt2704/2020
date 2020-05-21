@@ -1,5 +1,8 @@
 const express = require('express');
 const expressHandlebars = require('express-handlebars');
+const faker = require('faker');
+
+const fortunes = Array.from({length: 5}, () => faker.lorem.sentence());
 
 const app = express();
 
@@ -20,7 +23,10 @@ app.get('/', (req, res) => {
 });
 */
 app.get('/', (req, res) => res.render('home'));
-app.get('/about', (req, res) => res.render('about'));
+app.get('/about', (req, res) => {
+    const randomFortune = fortunes[Math.floor(Math.random()*fortunes.length)];
+    res.render('about', {fortune: randomFortune});
+});
 
 app.use((req, res) => {
     /*
