@@ -23,3 +23,12 @@ Testing with jest
 
     npm test -- --watch
     npm test -- --coverage
+
+Testing with puppeteer
+    npm install --save-dev puppeteer
+    npm install --save-dev portfinder
+
+
+eslint
+    npm install --save-dev eslint    
+    ./node_modules/.bin/eslint --init
