@@ -2,6 +2,8 @@ const express = require('express');
 const expressHandlebars = require('express-handlebars');
 const bodyParser = require('body-parser');
 const handlers = require('./lib/handlers');
+const { credentials } = require('./config');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
@@ -12,6 +14,7 @@ app.engine('handlebars', expressHandlebars({
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+app.use(cookieParser(credentials.cookieSecret));
 
 app.set('view engine', 'handlebars');
 

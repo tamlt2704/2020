@@ -41,3 +41,6 @@ processing Forms
 render without layout
     res.render('foo', {layout: null});
     res.render('foo', {layout: 'microsite'});
+
+Cookies
+    npm install cookie-parser
