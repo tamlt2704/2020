@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const handlers = require('./lib/handlers');
 const { credentials } = require('./config');
 const cookieParser = require('cookie-parser');
+const expressSession = require('express-session');
+const flashMiddleware = require('./lib/middleware/flash')
 
 const app = express();
 
@@ -15,6 +17,13 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser(credentials.cookieSecret));
+app.use(flashMiddleware);
+
+app.use(expressSession({
+    resave: false,
+    saveUninitialized: false,
+    secret: credentials.cookieSecret,
+}));
 
 app.set('view engine', 'handlebars');
 

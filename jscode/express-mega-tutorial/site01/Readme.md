@@ -44,3 +44,24 @@ render without layout
 
 Cookies
     npm install cookie-parser
+
+Session
+    npm install express-session
+
+Common middleware
+    basicauth-middleware
+    body-parser
+    busboy, multiparty, formidable, multer
+    compression
+    cookie-parser
+    cookie-session
+    express-session
+    csurf
+    serve-index
+    errorhandler
+    serve-favicon
+    morgan
+    method-override
+    response-time
+    static
+    vhost
