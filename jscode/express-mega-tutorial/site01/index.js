@@ -18,9 +18,14 @@ const port = process.env.PORT || 5000;
 
 app.get('/', handlers.home);
 app.get('/about', handlers.about);
+/*
 app.get('/newsletter-signup', handlers.newsletterSignup);
 app.post('/newsletter-signup/process', handlers.newsletterSignupProcess);
 app.get('/newsletter-signup/thankyou', handlers.newsletterSignupThankyou);
+*/
+app.get('/newsletter', handlers.newsletter);
+app.post('/api/newsletter-signup', handlers.api.newsletterSignup);
+
 app.use(handlers.notFound);
 app.use(handlers.serverError);
 
