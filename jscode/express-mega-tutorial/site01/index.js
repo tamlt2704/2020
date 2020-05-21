@@ -7,6 +7,8 @@ app.engine('handlebars', expressHandlebars({
     defaultLayout: 'main',
 }));
 
+app.use(express.static(__dirname + '/public'));
+
 app.set('view engine', 'handlebars');
 
 const port = process.env.PORT || 5000;
