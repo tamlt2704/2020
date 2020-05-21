@@ -15,3 +15,11 @@ order in which routes and middleware are added is significant
 Template
     npm install express-handlebars
     
+
+Testing with jest
+    npm install --save-dev jest
+    --save-dev: package is only required for development
+                NOT for functioning
+
+    npm test -- --watch
+    npm test -- --coverage
