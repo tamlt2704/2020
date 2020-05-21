@@ -6,8 +6,22 @@ const { credentials } = require('./config');
 const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
 const flashMiddleware = require('./lib/middleware/flash')
+const morgan = require('morgan');
+const fs = require('fs');
+
 
 const app = express();
+/*
+switch(app.get('env')) {
+    case 'development':
+        app.use(morgan('dev'))
+        break
+    case 'production':
+        const stream = fs.createWriteStream(__dirname + '/access.log',
+            {flags: 'a'});
+        app.use(morgan('combined', {stream}))
+        break
+}*/
 
 app.engine('handlebars', expressHandlebars({
     defaultLayout: 'main',

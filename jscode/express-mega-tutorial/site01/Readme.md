@@ -65,3 +65,6 @@ Common middleware
     response-time
     static
     vhost
+
+Logging
+    npm install morgan
