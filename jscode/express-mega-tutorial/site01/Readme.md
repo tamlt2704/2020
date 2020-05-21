@@ -32,3 +32,12 @@ Testing with puppeteer
 eslint
     npm install --save-dev eslint    
     ./node_modules/.bin/eslint --init
+
+processing Forms
+
+    const bodyParser = require('body-parser')
+    app.use(bodyParser.urlencoded({extended: false});
+
+render without layout
+    res.render('foo', {layout: null});
+    res.render('foo', {layout: 'microsite'});
