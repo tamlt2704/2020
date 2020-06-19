@@ -1,12 +1,9 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Color from './Color';
+import { useColors } from './useColors'
 
-function ColorList({ 
-    colors = [], 
-    onRemoveColor = f => f,
-    onRateColor = f => f 
-}) {
-    console.log(colors)
+function ColorList() {
+    const { colors } = useColors()
     return (
         <div>
             {
@@ -17,8 +14,6 @@ function ColorList({
                     <Color 
                         key={color.id} 
                         {...color} 
-                        onRemove={onRemoveColor}
-                        onRate={onRateColor}
                     />
                     ))
                 )
