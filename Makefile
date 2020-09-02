@@ -22,8 +22,8 @@ v1.0:
 #
 v2.0:
 	git checkout tags/v2.0
-	javac src/main/java/io/spweb/Main.java
 	export CLASSPATH=$CLASSPATH:./src/main/
+	javac src/main/java/io/spweb/Main.java
 	java io.spweb.Main
 
 # add user and user repository
@@ -46,6 +46,28 @@ v2.0:
 #
 v2.1:
 	git checkout tags/v2.1
-	javac src/main/java/io/spweb/Main.java
 	export CLASSPATH=$CLASSPATH:./src/main/
+	javac src/main/java/io/spweb/Main.java
 	java io.spweb.Main
+
+
+# v2.2 using lib
+#
+#.
+#├── io
+#│   └── spweb
+#│       ├── Main.class
+#│       ├── Main.java
+#│       ├── model
+#│       │   ├── User.class
+#│       │   └── User.java
+#│       └── repository
+#│           ├── UserRepository.class
+#│           ├── UserRepositoryFileImpl.class
+#│           ├── UserRepositoryFileImpl.java
+#│           └── UserRepository.java
+#└── log4j-application.log
+#
+# under src/main/java
+# javac -cp "../../../lib/log4j-1.2.17.jar:." io/spweb/Main.java
+# java -cp "../../../lib/log4j-1.2.17.jar:../resources:." io.spweb.Main
